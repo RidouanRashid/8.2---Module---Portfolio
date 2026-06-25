@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+/* ── Design tokens (Tailwind v4 @theme) ───────────────────────────────
+   Fonts are next/font variables set on <html> in layout.tsx. */
+@theme {
+  --font-display: var(--font-oswald);
+  --font-sans:    var(--font-inter);
+  --font-mono:    var(--font-jbmono);
+
+  --color-track:  #b4502e;   /* terracotta lane            */
+  --color-line:   #f3f1ea;   /* crisp white track lines    */
+  --color-night:  #070a12;   /* dark dusk sky              */
+  --color-flood:  #ffd24a;   /* floodlight warm glow       */
+  --color-lane:   #36e0ff;   /* HUD accent (electric cyan) */
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-night);
+  color: var(--color-line);
+}
+
+body {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overscroll-behavior-y: none;
+}
+
+/* The run is scroll-driven; hide the scrollbar but keep scrolling. */
+::-webkit-scrollbar { width: 0; height: 0; }
+html { scrollbar-width: none; }
+
+/* Recommended Lenis styles — let lenis.stop() actually freeze the page while a
+   project modal is open. */
+html.lenis,
+html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+@keyframes pulse-line {
+  0%, 100% { transform: scaleY(0.4); opacity: 0.5; }
+  50%      { transform: scaleY(1);   opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

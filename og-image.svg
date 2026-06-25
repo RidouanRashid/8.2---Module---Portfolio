@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Social preview (Open Graph). 1200x630. Edit text/colour to match content.php.
+     Note: some platforms prefer PNG/JPG for OG images — see README to export one. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Ridouan Rashid — Software Developer">
+  <defs>
+    <style>
+      .name { font: 700 96px 'Space Grotesk','Inter',sans-serif; fill: #18181b; letter-spacing: -3px; }
+      .role { font: 500 38px 'Inter',sans-serif; fill: #55555c; }
+      .tag  { font: 500 26px ui-monospace,'SF Mono',monospace; fill: #2347ff; letter-spacing: 1px; }
+      .logo { font: 700 34px 'Space Grotesk',sans-serif; fill: #18181b; }
+      .accent { fill: #2347ff; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#f7f7f5"/>
+
+  <!-- Logo mark -->
+  <text x="80" y="100" class="logo">RR<tspan class="accent">.</tspan></text>
+
+  <!-- Accent bars -->
+  <g class="accent">
+    <rect x="80" y="250" width="120" height="6" rx="3"/>
+    <rect x="80" y="250" width="56"  height="6" rx="3" opacity="0.5" transform="translate(140,0)"/>
+  </g>
+
+  <!-- Name + role -->
+  <text x="78" y="360" class="name">Ridouan Rashid</text>
+  <text x="80" y="420" class="role">Software Developer</text>
+
+  <!-- Tagline -->
+  <text x="80" y="540" class="tag">I build fast — in both senses.</text>
+</svg>
