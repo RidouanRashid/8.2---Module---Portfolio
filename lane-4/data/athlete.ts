@@ -3,7 +3,7 @@ import type { AthleteProfile } from "./types";
 // Real data from atletiek.nu / AAV'36 (athlete 7572) + github.com/RidouanRashid.
 export const athlete: AthleteProfile = {
   name: "Ridouan Rashid",
-  lane: 4,
+  lane: 2,
   club: "AAV'36",
   category: "Men U20",
   events: ["400m", "400m hurdles"],
@@ -22,7 +22,7 @@ export const athlete: AthleteProfile = {
     {
       year: "2025",
       title: "NK U18 — 400 m hurdles",
-      detail: "Set a 400 mH personal record of 56.12 in the heats, Hilversum.",
+      detail: "2nd in the heat and a PB of 56.12 (lane 2), qualifying from Serie 3 — Hilversum.",
     },
   ],
   bio:

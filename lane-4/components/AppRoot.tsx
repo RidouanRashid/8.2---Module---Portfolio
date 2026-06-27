@@ -7,6 +7,8 @@ import Hud from "./ui/Hud";
 import Startline from "./ui/Startline";
 import ProjectModal from "./ui/ProjectModal";
 import FinishReveal from "./ui/FinishReveal";
+import ViewToggle from "./ui/ViewToggle";
+import WorkLink from "./ui/WorkLink";
 import TwoDPortfolio from "./fallback/TwoDPortfolio";
 import { useRaceStore } from "@/lib/store";
 import { projects } from "@/data/projects";
@@ -102,6 +104,8 @@ export default function AppRoot() {
 
       <Hud />
       <Startline />
+      <ViewToggle />
+      <WorkLink />
       <FinishReveal />
       <ProjectModal />
       <AccessibleContent />

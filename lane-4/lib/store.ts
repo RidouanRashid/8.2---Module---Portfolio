@@ -11,11 +11,13 @@ type RaceState = {
   distance: number; // progress * RACE_LENGTH (metres)
   reduced: boolean; // prefers-reduced-motion
   selectedProjectId: string | null;
+  thirdPerson: boolean; // camera view mode
 
   setScroll: (progress: number, velocity: number) => void;
   setReduced: (v: boolean) => void;
   openProject: (id: string) => void;
   closeProject: () => void;
+  toggleView: () => void;
 };
 
 export const useRaceStore = create<RaceState>((set) => ({
@@ -25,6 +27,7 @@ export const useRaceStore = create<RaceState>((set) => ({
   distance: 0,
   reduced: false,
   selectedProjectId: null,
+  thirdPerson: false,
 
   setScroll: (progress, velocity) =>
     set({
@@ -37,4 +40,5 @@ export const useRaceStore = create<RaceState>((set) => ({
   setReduced: (reduced) => set({ reduced }),
   openProject: (id) => set({ selectedProjectId: id }),
   closeProject: () => set({ selectedProjectId: null }),
+  toggleView: () => set((s) => ({ thirdPerson: !s.thirdPerson })),
 }));

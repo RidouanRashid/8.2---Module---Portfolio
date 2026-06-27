@@ -6,28 +6,26 @@ import { Sky } from "@react-three/drei";
 import * as THREE from "three";
 import { Track } from "./Track";
 import { Stadium } from "./Stadium";
+import { Competitors } from "./Competitors";
 import { Hurdle } from "./Hurdle";
 import { ProjectBoard } from "./ProjectBoard";
 import FirstPersonRunner from "./FirstPersonRunner";
-import Effects from "./Effects";
 import { hurdles } from "@/data/hurdles";
 import { projects } from "@/data/projects";
-import { useRaceStore } from "@/lib/store";
 
 // The fixed, full-screen 3D run. The page scrolls a tall spacer behind it; the
 // camera reads scroll distance from the store (see FirstPersonRunner).
 export default function RaceScene() {
-  const reduced = useRaceStore((s) => s.reduced);
-
   return (
     <Canvas
       className="!fixed inset-0"
-      dpr={[1, 1.75]}
-      camera={{ fov: 78, near: 0.1, far: 800, position: [0, 1.55, 0] }}
+      // Cap pixel density — high-DPI screens were rendering ~2× the pixels.
+      dpr={[1, 1.25]}
+      camera={{ fov: 82, near: 0.1, far: 600, position: [0, 1.55, 0] }}
       gl={{ antialias: true, powerPreference: "high-performance" }}
       onCreated={({ scene }) => {
         scene.background = new THREE.Color("#aacbee");
-        scene.fog = new THREE.Fog("#cfe0f2", 130, 520);
+        scene.fog = new THREE.Fog("#cfe0f2", 120, 420);
       }}
     >
       <Sky
@@ -45,6 +43,7 @@ export default function RaceScene() {
       <Suspense fallback={null}>
         <Stadium />
         <Track />
+        <Competitors />
         {hurdles.map((h) => (
           <Hurdle key={h.distanceMeters} mark={h.distanceMeters} label={h.label} />
         ))}
@@ -54,7 +53,6 @@ export default function RaceScene() {
       </Suspense>
 
       <FirstPersonRunner />
-      {!reduced && <Effects />}
     </Canvas>
   );
 }

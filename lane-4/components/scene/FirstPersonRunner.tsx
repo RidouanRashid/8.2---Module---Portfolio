@@ -10,6 +10,7 @@ const EYE = 1.55; // running eye height (m)
 const target = new THREE.Vector3();
 const base = new THREE.Vector3();
 const ahead = new THREE.Vector3();
+const fwd = new THREE.Vector3();
 
 // The heart of Lane 4: scroll distance → a point + heading on the 400m oval,
 // plus a running gait, hurdle jumps, bend lean and the finish dip — all as
@@ -63,6 +64,17 @@ export default function FirstPersonRunner() {
     // Look at a point a few metres AHEAD in the same lane (not just the
     // instantaneous tangent) so the track stays centred through the bends.
     offsetPositionAt(run + 9, LANE_OFFSET, ahead);
+
+    // 3rd-person chase cam — pulled back and up so you can see the field.
+    if (s.thirdPerson) {
+      fwd.set(ahead.x - base.x, 0, ahead.z - base.z).normalize();
+      camera.up.set(0, 1, 0);
+      camera.position.set(base.x - fwd.x * 7, 3.4, base.z - fwd.z * 7);
+      target.set(base.x + fwd.x * 5, 1.2, base.z + fwd.z * 5);
+      camera.lookAt(target);
+      return;
+    }
+
     camera.position.set(base.x, y, base.z);
     target.set(ahead.x, y + pitch, ahead.z);
     camera.lookAt(target);

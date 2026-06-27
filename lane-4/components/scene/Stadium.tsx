@@ -17,26 +17,36 @@ function crowdTexture(): THREE.Texture {
   ctx.fillRect(0, 0, w, h);
 
   const seats = ["#2c4a86", "#274080", "#33539a"];
-  const people = ["#e8c9a0", "#d98a6a", "#e8e3d8", "#c25b4a", "#9fb3d8", "#e6b85c"];
+  // bright, varied clothing so the crowd reads clearly from the track
+  const people = [
+    "#f1d6b0", "#e89a76", "#ffffff", "#e23b2f", "#ffd23a", "#3fa9ff",
+    "#9fe36b", "#ff7fb0", "#f3ede0", "#b98cff", "#ff9d3a", "#c9d2dc",
+  ];
   const rowH = 11;
   const seatW = 7;
-  const gap = 3;
+  const gap = 2;
   for (let ry = 4; ry < h - rowH; ry += rowH) {
-    ctx.fillStyle = "rgba(0,0,0,0.25)"; // step shadow
+    ctx.fillStyle = "rgba(0,0,0,0.22)"; // step shadow
     ctx.fillRect(0, ry + rowH - 2, w, 2);
-    for (let x = 3; x < w - seatW; x += seatW + gap) {
+    for (let x = 2; x < w - seatW; x += seatW + gap) {
       ctx.fillStyle = seats[(Math.random() * seats.length) | 0];
       ctx.fillRect(x, ry, seatW, rowH - 3);
-      if (Math.random() < 0.45) {
-        ctx.fillStyle = people[(Math.random() * people.length) | 0];
-        ctx.fillRect(x + 1, ry - 1, seatW - 2, rowH - 4);
+      // ~78% of seats occupied — head dot + body block so it reads as a person
+      if (Math.random() < 0.78) {
+        const col = people[(Math.random() * people.length) | 0];
+        ctx.fillStyle = col;
+        ctx.fillRect(x, ry, seatW, rowH - 3); // torso fills the seat
+        ctx.fillStyle = "rgba(0,0,0,0.25)";
+        ctx.fillRect(x, ry + rowH - 5, seatW, 2); // lap shadow
+        ctx.fillStyle = "#d9b48f"; // head
+        ctx.fillRect(x + 2, ry - 1, seatW - 4, 3);
       }
     }
   }
   const t = new THREE.CanvasTexture(c);
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
   t.colorSpace = THREE.SRGBColorSpace;
-  t.repeat.set(60, 6); // many seat columns around, several tiers up
+  t.repeat.set(44, 5); // seat columns around the ring × tiers up
   return t;
 }
 
@@ -112,12 +122,12 @@ export function Stadium() {
 
   // City skyline — a ring of instanced buildings out beyond the stands.
   const { count, matrices } = useMemo(() => {
-    const n = 160;
+    const n = 90;
     const m = new THREE.Matrix4();
     const out: THREE.Matrix4[] = [];
     for (let i = 0; i < n; i++) {
       const ang = Math.random() * Math.PI * 2;
-      const r = 150 + Math.random() * 240;
+      const r = 140 + Math.random() * 180;
       const h = 14 + Math.random() * 80;
       const w = 8 + Math.random() * 18;
       const dpt = 8 + Math.random() * 18;

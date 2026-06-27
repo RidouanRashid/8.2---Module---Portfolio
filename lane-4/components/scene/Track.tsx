@@ -4,8 +4,6 @@ import { useMemo } from "react";
 import * as THREE from "three";
 import {
   pose2D,
-  positionAt,
-  headingAt,
   TOTAL,
   TRACK_HALF_WIDTH,
   LANE_WIDTH,
@@ -47,7 +45,7 @@ function buildRibbon(
 
 export function Track() {
   const surface = useMemo(
-    () => buildRibbon(0, TOTAL, 0, TRACK_HALF_WIDTH, 0, 320),
+    () => buildRibbon(0, TOTAL, 0, TRACK_HALF_WIDTH, 0, 220),
     [],
   );
 
@@ -56,7 +54,7 @@ export function Track() {
     const lines: THREE.BufferGeometry[] = [];
     for (let i = 0; i <= N_LANES; i++) {
       const lat = -TRACK_HALF_WIDTH + i * LANE_WIDTH;
-      lines.push(buildRibbon(0, TOTAL, lat, 0.03, 0.012, 320));
+      lines.push(buildRibbon(0, TOTAL, lat, 0.03, 0.012, 220));
     }
     return lines;
   }, []);
@@ -66,9 +64,6 @@ export function Track() {
     () => buildRibbon(0, 0.5, 0, TRACK_HALF_WIDTH, 0.014, 2),
     [],
   );
-
-  const finishPos = useMemo(() => positionAt(0), []);
-  const finishRot = useMemo(() => headingAt(0), []);
 
   return (
     <group>
@@ -112,12 +107,6 @@ export function Track() {
           emissiveIntensity={0.2}
           side={THREE.DoubleSide}
         />
-      </mesh>
-
-      {/* A subtle marker post at the finish so the line reads in 3D */}
-      <mesh position={[finishPos.x, 1.2, finishPos.z]} rotation={[0, finishRot, 0]}>
-        <boxGeometry args={[0.08, 2.4, 0.08]} />
-        <meshStandardMaterial color="#f3f1ea" emissive="#222" />
       </mesh>
     </group>
   );

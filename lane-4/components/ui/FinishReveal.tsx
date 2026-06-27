@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { useRaceStore } from "@/lib/store";
 import { athlete } from "@/data/athlete";
 
@@ -106,12 +107,20 @@ export default function FinishReveal() {
           ))}
         </div>
 
-        <button
-          onClick={runAgain}
-          className="mt-12 rounded-lg bg-[color:var(--color-lane)] px-6 py-3 font-display text-lg font-bold uppercase tracking-wider text-black hover:opacity-90"
-        >
-          Run it again ↑
-        </button>
+        <div className="mt-12 flex flex-wrap gap-3">
+          <button
+            onClick={runAgain}
+            className="rounded-lg bg-[color:var(--color-lane)] px-6 py-3 font-display text-lg font-bold uppercase tracking-wider text-black hover:opacity-90"
+          >
+            Run it again ↑
+          </button>
+          <Link
+            href="/work"
+            className="rounded-lg border border-white/25 px-6 py-3 font-display text-lg font-bold uppercase tracking-wider text-white hover:bg-white/10"
+          >
+            ▦ All projects
+          </Link>
+        </div>
       </div>
     </div>
   );

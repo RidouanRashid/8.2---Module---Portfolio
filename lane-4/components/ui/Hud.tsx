@@ -3,9 +3,10 @@
 import { useEffect, useRef } from "react";
 import { useRaceStore } from "@/lib/store";
 import { athlete } from "@/data/athlete";
+import { PLAYER_TIME } from "@/data/competitors";
 
-// Faux pace used for the split clock (m/s). Flavour, not real timing.
-const PACE = 7.4;
+// Clock maps your distance → time at your real PR pace, so it reads ~56.12 at 400m.
+const PACE = 400 / PLAYER_TIME;
 
 function fmt(sec: number) {
   const m = Math.floor(sec / 60);

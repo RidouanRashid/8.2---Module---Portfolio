@@ -110,7 +110,14 @@ export const LANE_WIDTH = 1.22;
 export const N_LANES = 8;
 export const TRACK_HALF_WIDTH = (LANE_WIDTH * N_LANES) / 2;
 
-// The centre line falls ON the middle lane line, so running there straddles two
-// lanes. Offset by half a lane (toward the infield) to sit CENTRED in lane 4 —
-// the camera and the hurdles both use this so they line up in one lane.
-export const LANE_OFFSET = LANE_WIDTH / 2;
+// Lateral offset of any lane's centre from the track centre line. Lane 4 sits
+// at +LANE_WIDTH/2; lower lane numbers are toward the infield (more positive),
+// higher lanes toward the outside.
+export function laneOffset(lane: number): number {
+  return LANE_WIDTH / 2 + (4 - lane) * LANE_WIDTH;
+}
+
+// You run lane 2 — your real lane in the PR heat (Hilversum 2025). The camera
+// and your hurdles use this; competitors use laneOffset() for their own lanes.
+export const PLAYER_LANE = 2;
+export const LANE_OFFSET = laneOffset(PLAYER_LANE);
