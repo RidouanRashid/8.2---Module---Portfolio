@@ -12,12 +12,15 @@ type RaceState = {
   reduced: boolean; // prefers-reduced-motion
   selectedProjectId: string | null;
   thirdPerson: boolean; // camera view mode
+  viewWork: boolean; // "all projects" overhead view of the infield
 
   setScroll: (progress: number, velocity: number) => void;
   setReduced: (v: boolean) => void;
   openProject: (id: string) => void;
   closeProject: () => void;
   toggleView: () => void;
+  setViewWork: (v: boolean) => void;
+  toggleWork: () => void;
 };
 
 export const useRaceStore = create<RaceState>((set) => ({
@@ -28,6 +31,7 @@ export const useRaceStore = create<RaceState>((set) => ({
   reduced: false,
   selectedProjectId: null,
   thirdPerson: false,
+  viewWork: false,
 
   setScroll: (progress, velocity) =>
     set({
@@ -41,4 +45,6 @@ export const useRaceStore = create<RaceState>((set) => ({
   openProject: (id) => set({ selectedProjectId: id }),
   closeProject: () => set({ selectedProjectId: null }),
   toggleView: () => set((s) => ({ thirdPerson: !s.thirdPerson })),
+  setViewWork: (viewWork) => set({ viewWork }),
+  toggleWork: () => set((s) => ({ viewWork: !s.viewWork })),
 }));

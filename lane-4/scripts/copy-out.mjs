@@ -27,8 +27,8 @@ const phpFiles = [
 ];
 for (const f of phpFiles) await rm(path.join(moduleDir, f), { force: true });
 
-// 2) Remove previous build artifacts so stale chunks don't linger.
-for (const d of ["_next", "_not-found", "404"]) {
+// 2) Remove previous build artifacts so stale chunks/routes don't linger.
+for (const d of ["_next", "_not-found", "404", "work"]) {
   await rm(path.join(moduleDir, d), { recursive: true, force: true });
 }
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
 import { useRaceStore } from "@/lib/store";
 import { athlete } from "@/data/athlete";
 
@@ -14,11 +13,12 @@ export default function FinishReveal() {
     let raf = 0;
     const loop = () => {
       // read straight from the store (no React re-render)
-      const d = useRaceStore.getState().distance;
+      const st = useRaceStore.getState();
       if (root.current) {
-        const o = Math.max(0, Math.min((d - 398) / 14, 1)); // 398→412m
+        // hide entirely while the overhead "all projects" view is open
+        const o = st.viewWork ? 0 : Math.max(0, Math.min((st.distance - 398) / 14, 1));
         root.current.style.opacity = String(o);
-        root.current.style.pointerEvents = o > 0.6 ? "auto" : "none";
+        root.current.style.pointerEvents = !st.viewWork && o > 0.6 ? "auto" : "none";
       }
       raf = requestAnimationFrame(loop);
     };
@@ -114,12 +114,12 @@ export default function FinishReveal() {
           >
             Run it again ↑
           </button>
-          <Link
-            href="/work"
+          <button
+            onClick={() => useRaceStore.getState().setViewWork(true)}
             className="rounded-lg border border-white/25 px-6 py-3 font-display text-lg font-bold uppercase tracking-wider text-white hover:bg-white/10"
           >
             ▦ All projects
-          </Link>
+          </button>
         </div>
       </div>
     </div>

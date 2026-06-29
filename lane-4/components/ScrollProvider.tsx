@@ -36,10 +36,12 @@ export default function ScrollProvider({
     };
     raf = requestAnimationFrame(loop);
 
-    // Pause/resume the run when a project board is opened/closed.
+    // Pause/resume the run when a project modal or the work view is open.
     const unsub = useRaceStore.subscribe((s, prev) => {
-      if (s.selectedProjectId !== prev.selectedProjectId) {
-        if (s.selectedProjectId) lenis.stop();
+      const blocked = !!(s.selectedProjectId || s.viewWork);
+      const wasBlocked = !!(prev.selectedProjectId || prev.viewWork);
+      if (blocked !== wasBlocked) {
+        if (blocked) lenis.stop();
         else lenis.start();
       }
     });

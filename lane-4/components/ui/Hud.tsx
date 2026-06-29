@@ -31,9 +31,9 @@ export default function Hud() {
       if (distEl.current) distEl.current.textContent = run.toFixed(0);
       if (splitEl.current) splitEl.current.textContent = fmt(run / PACE);
 
-      // Show after the gun (~6m), hide at the finish (>400m).
+      // Show after the gun (~6m); hide at the finish (>400m) or in the work view.
       if (root.current) {
-        const vis = s.distance > 6 && s.distance < 401 ? 1 : 0;
+        const vis = !s.viewWork && s.distance > 6 && s.distance < 401 ? 1 : 0;
         root.current.style.opacity = String(vis);
       }
       if (pulse.current) {

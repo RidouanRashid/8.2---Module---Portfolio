@@ -7,6 +7,7 @@ import { useRaceStore } from "@/lib/store";
 export default function ViewToggle() {
   const third = useRaceStore((s) => s.thirdPerson);
   const toggle = useRaceStore((s) => s.toggleView);
+  const viewWork = useRaceStore((s) => s.viewWork);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -15,6 +16,8 @@ export default function ViewToggle() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [toggle]);
+
+  if (viewWork) return null; // irrelevant in the overhead docs view
 
   return (
     <button

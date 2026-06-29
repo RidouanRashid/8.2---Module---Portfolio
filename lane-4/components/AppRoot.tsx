@@ -70,9 +70,10 @@ export default function AppRoot() {
     if (mode !== "3d") return;
     let raf = 0;
     const loop = () => {
-      const d = useRaceStore.getState().distance;
+      const st = useRaceStore.getState();
       if (sceneWrap.current) {
-        const o = 1 - Math.max(0, Math.min((d - 401) / 12, 1));
+        // keep the canvas fully visible while the overhead "all projects" view is open
+        const o = st.viewWork ? 1 : 1 - Math.max(0, Math.min((st.distance - 401) / 12, 1));
         sceneWrap.current.style.opacity = String(o);
       }
       raf = requestAnimationFrame(loop);

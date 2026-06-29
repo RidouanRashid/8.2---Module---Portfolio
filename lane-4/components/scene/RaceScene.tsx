@@ -8,6 +8,7 @@ import { Track } from "./Track";
 import { Stadium } from "./Stadium";
 import { Competitors } from "./Competitors";
 import { Hurdles } from "./Hurdles";
+import { WorkField } from "./WorkField";
 import { ProjectBoard } from "./ProjectBoard";
 import FirstPersonRunner from "./FirstPersonRunner";
 import { projects } from "@/data/projects";
@@ -44,6 +45,7 @@ export default function RaceScene() {
         <Track />
         <Competitors />
         <Hurdles />
+        <WorkField />
         {projects.map((p) => (
           <ProjectBoard key={p.id} project={p} />
         ))}
