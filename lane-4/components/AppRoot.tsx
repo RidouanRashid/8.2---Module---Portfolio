@@ -60,12 +60,10 @@ function AccessibleContent() {
 }
 
 export default function AppRoot() {
-  const [mode, setMode] = useState<"loading" | "3d" | "2d">("loading");
+  // One-time client-only WebGL probe. This component never renders on the server
+  // (loaded via dynamic ssr:false), so we can decide during the first render.
+  const [mode] = useState<"3d" | "2d">(() => (hasWebGL() ? "3d" : "2d"));
   const sceneWrap = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setMode(hasWebGL() ? "3d" : "2d");
-  }, []);
 
   // Fade the canvas out as the finish reveal takes over.
   useEffect(() => {
@@ -82,14 +80,6 @@ export default function AppRoot() {
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
   }, [mode]);
-
-  if (mode === "loading") {
-    return (
-      <div className="fixed inset-0 grid place-items-center font-mono text-sm uppercase tracking-[0.4em] text-white/50">
-        Loading lane 4…
-      </div>
-    );
-  }
 
   if (mode === "2d") return <TwoDPortfolio />;
 

@@ -12,7 +12,7 @@ export type WorkItem = {
 // group projects and experiments. Newest first. (Empty/duplicate repos omitted.)
 export const work: WorkItem[] = [
   {
-    title: "Lane 4 — This Portfolio",
+    title: "Lane 2 — This Portfolio",
     year: "2026",
     language: "TypeScript",
     blurb:

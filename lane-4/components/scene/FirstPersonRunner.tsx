@@ -12,7 +12,7 @@ const base = new THREE.Vector3();
 const ahead = new THREE.Vector3();
 const fwd = new THREE.Vector3();
 
-// The heart of Lane 4: scroll distance → a point + heading on the 400m oval,
+// The heart of Lane 2: scroll distance → a point + heading on the 400m oval,
 // plus a running gait, hurdle jumps, bend lean and the finish dip — all as
 // additive offsets on top of the path-following camera.
 export default function FirstPersonRunner() {
@@ -26,7 +26,7 @@ export default function FirstPersonRunner() {
     const run = Math.min(distance, TOTAL);
     const speed = reduced ? 0 : s.speed;
 
-    // Run centred in lane 4 (offset from the track centre line).
+    // Run centred in lane 2 (offset from the track centre line).
     offsetPositionAt(run, LANE_OFFSET, base);
 
     // Crouched in the blocks at 0m, rising to eye height by ~10m.

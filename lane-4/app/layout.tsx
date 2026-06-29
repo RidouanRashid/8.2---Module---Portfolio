@@ -16,7 +16,7 @@ const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 const mono = JetBrains_Mono({ variable: "--font-jbmono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Lane 4 — Ridouan Rashid",
+  title: "Lane 2 — Ridouan Rashid",
   description:
     "Run a 400m hurdles race through a developer's eyes. A first-person, scroll-driven portfolio: projects line the track, hurdles are skills cleared, and the finish line reveals the athlete behind the code.",
 };

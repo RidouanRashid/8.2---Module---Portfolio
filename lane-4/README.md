@@ -1,4 +1,4 @@
-# Lane 4 — a first-person 400m hurdles developer portfolio
+# Lane 2 — a first-person 400m hurdles developer portfolio
 
 Run a 400m hurdles race through the athlete's own eyes. Scroll = distance
 (0 → 400m). Projects line the track as boards, each hurdle is a skill "cleared",
@@ -39,7 +39,7 @@ athlete profile from **atletiek.nu / AAV'36** (Men U20 — 100m 11.79, 200m 24.0
 400m 52.00, 400mH 56.12; NK Indoor U20 8th; NK U18 400mH PR).
 
 ### Still to confirm (search for `TODO`)
-- The Lane 4 repo URL (`data/projects.ts`) and your LinkedIn (`data/athlete.ts`).
+- The Lane 2 repo URL (`data/projects.ts`) and your LinkedIn (`data/athlete.ts`).
 - Add photos to `/public` and list them in `athlete.photos`.
 - Men's vs women's hurdle height.
 

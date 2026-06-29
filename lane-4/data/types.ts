@@ -1,4 +1,4 @@
-// Shared data models for Lane 4. Edit the content in projects.ts / hurdles.ts /
+// Shared data models for Lane 2. Edit the content in projects.ts / hurdles.ts /
 // athlete.ts — these are just the shapes.
 
 export type Project = {

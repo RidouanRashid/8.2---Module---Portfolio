@@ -66,9 +66,9 @@ $res = $mysqli->query(
     links: { repo: "https://github.com/RidouanRashid/ScreenStream" },
   },
   {
-    id: "lane-4",
+    id: "lane-2",
     distanceMeters: 342,
-    title: "Lane 4 — This Portfolio",
+    title: "Lane 2 — This Portfolio",
     blurb:
       "The race you're running right now: a first-person 400m hurdles portfolio in React Three Fiber, driven entirely by scroll.",
     stack: ["Next.js", "TypeScript", "Tailwind", "React Three Fiber", "Three.js"],

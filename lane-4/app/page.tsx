@@ -8,7 +8,7 @@ const AppRoot = dynamic(() => import("@/components/AppRoot"), {
   ssr: false,
   loading: () => (
     <div className="fixed inset-0 grid place-items-center font-mono text-sm uppercase tracking-[0.4em] text-white/50">
-      Loading lane 4…
+      Loading lane 2…
     </div>
   ),
 });

@@ -7,10 +7,9 @@ import * as THREE from "three";
 import { Track } from "./Track";
 import { Stadium } from "./Stadium";
 import { Competitors } from "./Competitors";
-import { Hurdle } from "./Hurdle";
+import { Hurdles } from "./Hurdles";
 import { ProjectBoard } from "./ProjectBoard";
 import FirstPersonRunner from "./FirstPersonRunner";
-import { hurdles } from "@/data/hurdles";
 import { projects } from "@/data/projects";
 
 // The fixed, full-screen 3D run. The page scrolls a tall spacer behind it; the
@@ -44,9 +43,7 @@ export default function RaceScene() {
         <Stadium />
         <Track />
         <Competitors />
-        {hurdles.map((h) => (
-          <Hurdle key={h.distanceMeters} mark={h.distanceMeters} label={h.label} />
-        ))}
+        <Hurdles />
         {projects.map((p) => (
           <ProjectBoard key={p.id} project={p} />
         ))}

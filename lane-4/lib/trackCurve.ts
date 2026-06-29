@@ -110,8 +110,9 @@ export const LANE_WIDTH = 1.22;
 export const N_LANES = 8;
 export const TRACK_HALF_WIDTH = (LANE_WIDTH * N_LANES) / 2;
 
-// Lateral offset of any lane's centre from the track centre line. Lane 4 sits
-// at +LANE_WIDTH/2; lower lane numbers are toward the infield (more positive),
+// Lateral offset of any lane's centre from the track centre line. The centre
+// line lies between the two middle lanes, so the offset is half a lane plus a
+// whole lane per step; lower lane numbers are toward the infield (more positive),
 // higher lanes toward the outside.
 export function laneOffset(lane: number): number {
   return LANE_WIDTH / 2 + (4 - lane) * LANE_WIDTH;
@@ -121,3 +122,25 @@ export function laneOffset(lane: number): number {
 // and your hurdles use this; competitors use laneOffset() for their own lanes.
 export const PLAYER_LANE = 2;
 export const LANE_OFFSET = laneOffset(PLAYER_LANE);
+
+// 400m stagger that UNWINDS. Each outer lane starts ahead by the extra length
+// its bigger bends carry (≈ 2π·laneWidth per lane), and that lead shrinks as the
+// bends are run — reaching ~0 on the home straight, where every lane meets the
+// common finish. So the lanes' hurdles fan out at the start and converge by the
+// finish, like a real race. You (lane 2) are the reference: always 0.
+const FULL_STAGGER = 2 * Math.PI * LANE_WIDTH; // ≈ 7.7 m per lane at the start
+
+// Metres of bend run by race-distance d (the rest of the lap is straights).
+function bendCovered(d: number): number {
+  const s = Math.max(0, Math.min(d, TOTAL));
+  if (s <= BEND) return s; // bend 1
+  if (s <= BEND + STRAIGHT) return BEND; // back straight
+  if (s <= 2 * BEND + STRAIGHT) return BEND + (s - (BEND + STRAIGHT)); // bend 2
+  return 2 * BEND; // home straight
+}
+
+// How far ahead (centre-line metres) lane `lane` sits at race-distance d.
+export function laneStaggerAt(d: number, lane: number): number {
+  const remainingBendFraction = (2 * BEND - bendCovered(d)) / (2 * BEND);
+  return (lane - PLAYER_LANE) * FULL_STAGGER * remainingBendFraction;
+}

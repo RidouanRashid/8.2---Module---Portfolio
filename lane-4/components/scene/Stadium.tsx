@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import * as THREE from "three";
 import { pose2D, TOTAL, TRACK_HALF_WIDTH } from "@/lib/trackCurve";
 
@@ -115,67 +115,61 @@ function buildStands(): THREE.BufferGeometry {
   return g;
 }
 
+// The stadium is fully static, so build it ONCE at module load (this module is
+// client-only) — keeps the procedural Math.random out of React's render pass.
+const CROWD_TEX = crowdTexture();
+const WINDOW_TEX = windowsTexture();
+const STANDS_GEO = buildStands();
+
+const CITY_MATRICES: THREE.Matrix4[] = (() => {
+  const m = new THREE.Matrix4();
+  const out: THREE.Matrix4[] = [];
+  for (let i = 0; i < 90; i++) {
+    const ang = Math.random() * Math.PI * 2;
+    const r = 140 + Math.random() * 180;
+    const h = 14 + Math.random() * 80;
+    const w = 8 + Math.random() * 18;
+    const dpt = 8 + Math.random() * 18;
+    m.compose(
+      new THREE.Vector3(Math.cos(ang) * r, h / 2, Math.sin(ang) * r),
+      new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.random() * Math.PI),
+      new THREE.Vector3(w, h, dpt),
+    );
+    out.push(m.clone());
+  }
+  return out;
+})();
+
+// Four floodlight towers at the corners.
+const HX = 84.39 / 2;
+const R = 36.8;
+const TOWERS: [number, number][] = [
+  [HX + 28, R + 34],
+  [HX + 28, -(R + 34)],
+  [-(HX + 28), R + 34],
+  [-(HX + 28), -(R + 34)],
+];
+
 export function Stadium() {
-  const crowd = useMemo(crowdTexture, []);
-  const windows = useMemo(windowsTexture, []);
-  const stands = useMemo(buildStands, []);
-
-  // City skyline — a ring of instanced buildings out beyond the stands.
-  const { count, matrices } = useMemo(() => {
-    const n = 90;
-    const m = new THREE.Matrix4();
-    const out: THREE.Matrix4[] = [];
-    for (let i = 0; i < n; i++) {
-      const ang = Math.random() * Math.PI * 2;
-      const r = 140 + Math.random() * 180;
-      const h = 14 + Math.random() * 80;
-      const w = 8 + Math.random() * 18;
-      const dpt = 8 + Math.random() * 18;
-      m.compose(
-        new THREE.Vector3(Math.cos(ang) * r, h / 2, Math.sin(ang) * r),
-        new THREE.Quaternion().setFromAxisAngle(
-          new THREE.Vector3(0, 1, 0),
-          Math.random() * Math.PI,
-        ),
-        new THREE.Vector3(w, h, dpt),
-      );
-      out.push(m.clone());
-    }
-    return { count: n, matrices: out };
+  const cityRef = useCallback((mesh: THREE.InstancedMesh | null) => {
+    if (!mesh) return;
+    CITY_MATRICES.forEach((mm, i) => mesh.setMatrixAt(i, mm));
+    mesh.instanceMatrix.needsUpdate = true;
   }, []);
-
-  const cityRef = useCallback(
-    (mesh: THREE.InstancedMesh | null) => {
-      if (!mesh) return;
-      matrices.forEach((mm, i) => mesh.setMatrixAt(i, mm));
-      mesh.instanceMatrix.needsUpdate = true;
-    },
-    [matrices],
-  );
-
-  // Four floodlight towers at the corners.
-  const HX = 84.39 / 2;
-  const R = 36.8;
-  const towers: [number, number][] = [
-    [HX + 28, R + 34],
-    [HX + 28, -(R + 34)],
-    [-(HX + 28), R + 34],
-    [-(HX + 28), -(R + 34)],
-  ];
 
   return (
     <group>
       {/* seating bowl — tiered seats, lit by daylight */}
-      <mesh geometry={stands}>
-        <meshStandardMaterial map={crowd} side={THREE.DoubleSide} roughness={1} />
+      <mesh geometry={STANDS_GEO}>
+        <meshStandardMaterial map={CROWD_TEX} side={THREE.DoubleSide} roughness={1} />
       </mesh>
 
       {/* city skyline ring — glass/concrete towers in daylight */}
-      <instancedMesh ref={cityRef} args={[undefined, undefined, count]}>
+      <instancedMesh ref={cityRef} args={[undefined, undefined, CITY_MATRICES.length]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial
           color="#5b647a"
-          emissiveMap={windows}
+          emissiveMap={WINDOW_TEX}
           emissive="#9fb6d6"
           emissiveIntensity={0.25}
           roughness={0.7}
@@ -184,7 +178,7 @@ export function Stadium() {
       </instancedMesh>
 
       {/* floodlight towers (off in daylight) */}
-      {towers.map(([x, z], i) => (
+      {TOWERS.map(([x, z], i) => (
         <group key={i} position={[x, 0, z]}>
           <mesh position={[0, 15, 0]}>
             <boxGeometry args={[0.9, 30, 0.9]} />

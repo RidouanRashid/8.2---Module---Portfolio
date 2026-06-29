@@ -38,11 +38,6 @@ html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
 
-@keyframes pulse-line {
-  0%, 100% { transform: scaleY(0.4); opacity: 0.5; }
-  50%      { transform: scaleY(1);   opacity: 1; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
